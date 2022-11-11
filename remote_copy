@@ -1,0 +1,55 @@
+import os
+import time
+import sys
+import shutil
+from rich.progress import track
+
+print("connecting to VPN", file=sys.stdout)
+os.system(r'"C:\Program Files\OpenVPN\bin\openvpn-gui.exe" --command connect split_tunnel.ovpn')
+
+time.sleep(8)
+
+print("Ensuring VPN Connection, waiting 90 seconds", file=sys.stdout)
+time.sleep(90) # adjust your connection time
+
+# Mounting Drive
+os.system(r"net use W: \\server_address\TimeMachine password /user:user /persistent:no")
+
+time.sleep(8)
+
+# copying files
+root_movies = (r"W:\media\test")
+movie_list = []
+movie_path = []
+dest = (r"C:/Users/User/Desktop/test/")
+
+
+def mover():
+    for root, dirs, files in os.walk(root_movies):
+        for file in files:
+            movie_list.append(file)
+            movie_path.append(os.path.join(root_movies, file))
+
+    if len(movie_list) == 1:
+        shutil.copy(movie_path[0], os.path.join(dest, movie_list[0]))
+    elif len(movie_list) == 2:
+        shutil.copy(movie_path[0], os.path.join(dest, movie_list[0]))
+        shutil.copy(movie_path[1], os.path.join(dest, movie_list[1]))
+    elif len(movie_list) == 3:
+        shutil.copy(movie_path[0], os.path.join(dest, movie_list[0]))
+        shutil.copy(movie_path[1], os.path.join(dest, movie_list[1]))
+        shutil.copy(movie_path[2], os.path.join(dest, movie_list[2]))
+
+
+for _ in track(range(100), description='[green]Processing Data'):
+    mover()
+
+# unmounting Drive
+os.system(r"net use W: /Delete")
+
+os.system(r'"C:\Program Files\OpenVPN\bin\openvpn-gui.exe" --command disconnect split_tunnel.ovpn')
+print("Disconnected from VPN", file=sys.stdout)
+
+print("Enjoy your Movies", file=sys.stdout)
+
+time.sleep(10)
