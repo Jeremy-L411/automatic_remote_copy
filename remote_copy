@@ -18,31 +18,7 @@ os.system(r"net use W: \\server_address\TimeMachine password /user:user /persist
 time.sleep(8)
 
 # copying files
-root_movies = (r"W:\media\test")
-movie_list = []
-movie_path = []
-dest = (r"C:/Users/User/Desktop/test/")
-
-
-def mover():
-    for root, dirs, files in os.walk(root_movies):
-        for file in files:
-            movie_list.append(file)
-            movie_path.append(os.path.join(root_movies, file))
-
-    if len(movie_list) == 1:
-        shutil.copy(movie_path[0], os.path.join(dest, movie_list[0]))
-    elif len(movie_list) == 2:
-        shutil.copy(movie_path[0], os.path.join(dest, movie_list[0]))
-        shutil.copy(movie_path[1], os.path.join(dest, movie_list[1]))
-    elif len(movie_list) == 3:
-        shutil.copy(movie_path[0], os.path.join(dest, movie_list[0]))
-        shutil.copy(movie_path[1], os.path.join(dest, movie_list[1]))
-        shutil.copy(movie_path[2], os.path.join(dest, movie_list[2]))
-
-
-for _ in track(range(100), description='[green]Processing Data'):
-    mover()
+os.system(r"python.exe copy_status.py {0} {1}".format(src, dst))
 
 # unmounting Drive
 os.system(r"net use W: /Delete")
