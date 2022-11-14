@@ -4,6 +4,10 @@ import sys
 import shutil
 from rich.progress import track
 
+src = "/source/to/files"
+dst = "destination/folder"
+
+
 print("connecting to VPN", file=sys.stdout)
 os.system(r'"C:\Program Files\OpenVPN\bin\openvpn-gui.exe" --command connect split_tunnel.ovpn')
 
