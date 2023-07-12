@@ -16,10 +16,11 @@ for i in range(90):
 
 
 # Mounting Drive
+print("mounting Drive")
 os.system(r"net use W: \\NAS\Path password /user:user /persistent:no")
 
 time.sleep(8)
-# copying files
+# copying files   Ensure root folder only contains files and no directories
 os.system(r"python.exe C:\scripts\copy_status.py W:\location\of\media C:\location\to\save")
 
 # unmounting Drive
@@ -28,4 +29,5 @@ os.system(r"net use W: /Delete")
 os.system(r'"C:\Program Files\OpenVPN\bin\openvpn-gui.exe" --command disconnect split_tunnel.ovpn')
 print("Disconnected from VPN", file=sys.stdout)
 
+print("Enjoy your media")
 time.sleep(10)
